@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 typedef struct {
   char *nombre;
@@ -55,18 +56,9 @@ void menu()
   printf("Ingrese una opcion: ");
 }
 
-int validarNombre(const char *nombre) {
-  for (int i = 0; nombre[i] != '\0'; i++) {
-    if (!isalpha(nombre[i]) && nombre[i] != ' ') {
-      return 0;
-    }
-  }
-  return 1;
-}
-
-int validarApellido(const char *apellido) {
-  for (int i = 0; apellido[i] != '\0'; i++) {
-    if (!isalpha(apellido[i]) && apellido[i] != ' ') {
+int validar(const char *variable) {
+  for (int i = 0; variable[i] != '\0'; i++) {
+    if (!isalpha(variable[i]) && variable[i] != ' ') {
       return 0;
     }
   }
@@ -84,7 +76,7 @@ void registrarPaciente(List *list)
 
   printf("Ingrese el nombre del paciente: ");
   scanf("%s", persona->nombre);
-  if (!validarNombre(persona->nombre)) {
+  if (!validar(persona->nombre)) {
     printf("Caracteres no válidos en el nombre. El paciente no se registrará.\n");
     free(persona->nombre);
     free(persona->apellido);
@@ -97,7 +89,7 @@ void registrarPaciente(List *list)
 
   printf("Ingrese el apellido del paciente: ");
   scanf("%s", persona->apellido);
-  if (!validarApellido(persona->apellido)) {
+  if (!validar(persona->apellido)) {
     printf("Caracteres no válidos en el apellido. El paciente no se registrará.\n");
     free(persona->nombre);
     free(persona->apellido);
