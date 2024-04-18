@@ -28,9 +28,3 @@ El programa incluye las siguientes funciones principales:
 
 Esta funcion aun no esta disponible, pero lo estara prontamente
 - `mostrarPacientes()`: Función para mostrar pacientes por prioridad.
-
-Para compilar el programa, se puede utilizar un compilador de C como GCC:
-
-```bash
-gcc main.c -o hospital
-./hospital
