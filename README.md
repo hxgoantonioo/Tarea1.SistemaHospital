@@ -29,10 +29,6 @@ El programa incluye las siguientes funciones principales:
 Esta funcion aun no esta disponible, pero lo estara prontamente
 - `mostrarPacientes()`: Función para mostrar pacientes por prioridad.
 
-## Ejecución del programa
-
-El programa se ejecuta y muestra un menú de opciones que permite al usuario interactuar con las funcionalidades del sistema hospitalario. Se pueden registrar pacientes, asignar prioridades, mostrar la lista de espera, atender pacientes, mostrar pacientes por prioridad, y salir del programa.
-
 Para compilar el programa, se puede utilizar un compilador de C como GCC:
 
 ```bash
