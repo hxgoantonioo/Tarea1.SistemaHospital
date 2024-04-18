@@ -21,6 +21,7 @@ typedef struct Node
 
 struct List 
 {
+  int size;
   Node *head;
   Node *tail;
   Node *current;
@@ -31,6 +32,7 @@ typedef struct List List;
 List *list_create()
 {
   List *list = (List *)malloc(sizeof(List));
+  list->size = 0;
   list->head = NULL;
   list->tail = NULL;
   list->current = NULL;
@@ -40,6 +42,37 @@ List *list_create()
 void limpiarPantalla()
 {
   system("clear");
+}
+
+void pushFront(List *list, Persona *data)
+{
+  Node *node = (Node *)malloc(sizeof(Node));
+  node->data = data;
+  node->next = list->head;
+  list->head = node;
+  if (list->tail == NULL)
+  {
+    list->tail = node;
+  }
+  list->size++;
+}
+
+void pushBack(List *list, Persona *data)
+{
+  Node *node = (Node *)malloc(sizeof(Node));
+  node->data = data;
+  node->next = NULL;
+  if (list->tail == NULL)
+  {
+    list->head = node;
+    list->tail = node;
+  }
+  else
+  {
+    list->tail->next = node;
+    list->tail = node;
+  }
+  list->size++;
 }
 
 void menu()
@@ -101,16 +134,7 @@ void registrarPaciente(List *list)
   }
 
   printf("Ingrese la edad del paciente: ");
-  if (scanf("%d", &persona->edad) != 1) {
-    printf("Entrada no válida para la edad. El paciente no se registrará.\n");
-    free(persona->nombre);
-    free(persona->apellido);
-    free(persona->sintoma);
-    free(persona);
-    printf("Espere unos segundos para volver al menú principal\n");
-    sleep(3);
-    return;
-  }
+  scanf("%d", &persona->edad);
   printf("Ingrese el síntoma del paciente: ");
   getchar();
   fgets(persona->sintoma, 100, stdin); 
@@ -118,19 +142,14 @@ void registrarPaciente(List *list)
   {
     persona->sintoma[strlen(persona->sintoma) - 1] = '\0';
   }
-    
-  Node *node = (Node *)malloc(sizeof(Node));
-  node->data = persona;
-  node->next = NULL;
-  if (list->head == NULL)
+
+  if (list->size == 0)
   {
-    list->head = node;
-    list->tail = node;
+    pushFront(list, persona);
   }
   else
   {
-    list->tail->next = node;
-    list->tail = node;
+    pushBack(list, persona); 
   }
   printf("\n");
   printf("Paciente registrado con éxito.\n");
@@ -210,15 +229,15 @@ void mostrarLista(List *list)
           {
             case 1:
               prioridad = "Bajo";
-              printf("%-9s\n\n", prioridad);
+              printf("%-9s\n", prioridad);
               break;
             case 2:
               prioridad = "Medio";
-              printf("%-9s\n\n", prioridad);
+              printf("%-9s\n", prioridad);
               break;
             case 3:
               prioridad = "Alto";
-              printf("%-9s\n\n", prioridad);
+              printf("%-9s\n", prioridad);
               break;
           }
         current = current->next;
@@ -227,6 +246,7 @@ void mostrarLista(List *list)
   int opcion;
   while (1)
     {
+      printf("\n");
       printf("Presione 1 para volver al menu principal: ");
       scanf("%d", &opcion);
       if (opcion == 1)
@@ -245,7 +265,65 @@ void mostrarLista(List *list)
 
 void atenderPaciente(List *list)
 {
-  
+  limpiarPantalla();
+  if (list->head == NULL)
+  {
+    printf("No hay pacientes en la lista.\n");
+  }
+  else
+  {
+    Node *current = list->head;
+    Node *prev = NULL;
+    Node *pacienteAtendido = NULL;
+    int prioridades[3] = {3, 2, 1};
+
+    for (int i = 0; i < 3; i++)
+    {
+      current = list->head;
+      prev = NULL;
+      while (current != NULL)
+      {
+        if (current->data->prioridad == prioridades[i])
+        {
+          pacienteAtendido = current;
+          break;
+        }
+        prev = current;
+        current = current->next;
+      }
+
+      if (pacienteAtendido != NULL)
+      {
+        printf("Paciente atendido:\n");
+        printf("Nombre: %s\n", pacienteAtendido->data->nombre);
+        printf("Apellido: %s\n", pacienteAtendido->data->apellido);
+        printf("Edad: %d\n", pacienteAtendido->data->edad);
+        printf("Síntoma: %s\n", pacienteAtendido->data->sintoma);
+        printf("Prioridad: %d\n", pacienteAtendido->data->prioridad);
+
+        if (prev != NULL)
+        {
+          prev->next = pacienteAtendido->next;
+        }
+        else
+        {
+          list->head = pacienteAtendido->next;
+        }
+
+        free(pacienteAtendido->data->nombre);
+        free(pacienteAtendido->data->apellido);
+        free(pacienteAtendido->data->sintoma);
+        free(pacienteAtendido->data);
+        free(pacienteAtendido);
+
+        printf("Paciente atendido con éxito.\n");
+        break;
+      }
+    }
+  }
+
+  printf("Espere unos segundos para volver al menú principal\n");
+  sleep(3);
 }
 
 void mostrarPacientes(List *list)
