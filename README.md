@@ -27,9 +27,9 @@ El programa incluye las siguientes funciones principales:
 - `limpiarLista()`: Función para limpiar la lista de pacientes.
 - `mostrarPacientes()`: Función para mostrar pacientes por prioridad.
 
-## Implementar el codigo (shell)
+## Implementar el codigo
 
-Para compilar y ejecutar el codigo, en el Shell se deben escribir los siguientes comandos en el siguiente orden:
+Para compilar y ejecutar el codigo, se deben escribir los siguientes comandos en el siguiente orden:
 
     gcc main.c -o hospital
     ./hospital
