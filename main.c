@@ -458,5 +458,8 @@ int main(void) {
         }
     } while(opcion != '6');
 
+  printf("¡Gracias por ocupar el programa!\n");
   limpiarLista(pacientes);
+  sleep(3);
+  limpiarPantalla();
 }
