@@ -13,14 +13,12 @@ typedef struct {
   int prioridad;
 } Persona;
 
-typedef struct Node 
-{
+typedef struct Node {
   Persona *data;
   struct Node *next;
 } Node;
 
-struct List 
-{
+struct List {
   int size;
   Node *head;
   Node *tail;
@@ -29,8 +27,7 @@ struct List
 
 typedef struct List List;
 
-List *list_create()
-{
+List *list_create() {
   List *list = (List *)malloc(sizeof(List));
   list->size = 0;
   list->head = NULL;
@@ -39,13 +36,11 @@ List *list_create()
   return list;
 }
 
-void limpiarPantalla()
-{
+void limpiarPantalla() {
   system("clear");
 }
 
-void pushFront(List *list, Persona *data)
-{
+void pushFront(List *list, Persona *data) {
   Node *node = (Node *)malloc(sizeof(Node));
   node->data = data;
   node->next = list->head;
@@ -57,8 +52,7 @@ void pushFront(List *list, Persona *data)
   list->size++;
 }
 
-void pushBack(List *list, Persona *data)
-{
+void pushBack(List *list, Persona *data) {
   Node *node = (Node *)malloc(sizeof(Node));
   node->data = data;
   node->next = NULL;
@@ -75,8 +69,7 @@ void pushBack(List *list, Persona *data)
   list->size++;
 }
 
-void menu()
-{
+void menu() {
   puts("========================================");
   puts("=         MENU DE OPCIONES             =");
   puts("========================================");
@@ -98,8 +91,7 @@ int validar(const char *variable) {
   return 1;
 }
 
-void registrarPaciente(List *list)
-{
+void registrarPaciente(List *list) {
   limpiarPantalla();
   Persona *persona = (Persona *)malloc(sizeof(Persona));
   persona->prioridad = 1;
@@ -157,8 +149,7 @@ void registrarPaciente(List *list)
   sleep(3);
 }
 
-void asignarPrioridad(List *list)
-{
+void asignarPrioridad(List *list) {
   limpiarPantalla();
   if (list->head == NULL)
   {
@@ -206,8 +197,7 @@ void asignarPrioridad(List *list)
   }
 }
 
-void mostrarLista(List *list)
-{
+void mostrarLista(List *list) {
   if (list->head == NULL)
   {
     printf("No hay pacientes en la lista.\n\n");
@@ -258,13 +248,13 @@ void mostrarLista(List *list)
       }
       else
       {
+        limpiarPantalla();
         printf("Opción inválida. Pruebe otra vez\n");
       }  
     } 
 }
 
-void atenderPaciente(List *list)
-{
+void atenderPaciente(List *list) {
   limpiarPantalla();
   if (list->head == NULL)
   {
@@ -299,7 +289,24 @@ void atenderPaciente(List *list)
         printf("Apellido: %s\n", pacienteAtendido->data->apellido);
         printf("Edad: %d\n", pacienteAtendido->data->edad);
         printf("Síntoma: %s\n", pacienteAtendido->data->sintoma);
-        printf("Prioridad: %d\n", pacienteAtendido->data->prioridad);
+        printf("Prioridad: ");
+
+        char *prioridad;
+        switch (pacienteAtendido->data->prioridad)
+          {
+            case 1:
+              prioridad = "Bajo";
+              printf("%s\n", prioridad);
+              break;
+            case 2:
+              prioridad = "Medio";
+              printf("%s\n", prioridad);
+              break;
+            case 3:
+              prioridad = "Alto";
+              printf("%s\n", prioridad);
+              break;
+          }
 
         if (prev != NULL)
         {
@@ -321,23 +328,100 @@ void atenderPaciente(List *list)
       }
     }
   }
-
-  printf("Espere unos segundos para volver al menú principal\n");
-  sleep(3);
+  int opcion;
+  while (1)
+  {
+    printf("\n");
+    printf("Presione 1 para volver al menu principal: ");
+    scanf("%d", &opcion);
+    if (opcion == 1)
+    {
+      printf("Espere unos segundos para volver al menu principal\n");
+      sleep(3);
+      limpiarPantalla();
+      break;
+    }
+    else
+    {
+      limpiarPantalla();
+      printf("Opción inválida. Pruebe otra vez\n");
+    }  
+  } 
 }
 
-void mostrarPacientes(List *list)
-{
-  
+void mostrarPacientes(List *list) {
+  if (list->head == NULL) {
+    printf("No hay pacientes en la lista.\n\n");
+  } else {
+    int prioridades[3] = {3, 2, 1};
+    int contador = 0;
+    for (int i = 0; i < 3; i++) {
+      Node *current = list->head;
+      while (current != NULL) 
+      {
+        if (current->data->prioridad == prioridades[i]) 
+        {
+          if (contador == 0) 
+          {
+            contador++;
+            printf("%-15s | %-15s | %-6s | %-25s | %-9s\n", "NOMBRE", "APELLIDO", "EDAD", "SINTOMA", "PRIORIDAD");
+          }
+          printf("%-15s | %-15s | %-6d | %-25s | ", current->data->nombre, current->data->apellido, current->data->edad, current->data->sintoma);
+          switch (current->data->prioridad) {
+            case 1:
+              printf("Bajo\n");
+              break;
+            case 2:
+              printf("Medio\n");
+              break;
+            case 3:
+              printf("Alto\n");
+              break;
+          }
+        }
+        current = current->next;
+      }
+    }
+  }
+  int opcion;
+  while (1)
+    {
+      printf("\n");
+      printf("Presione 1 para volver al menu principal: ");
+      scanf("%d", &opcion);
+      if (opcion == 1)
+      {
+        printf("Espere unos segundos para volver al menu principal\n");
+        sleep(3);
+        limpiarPantalla();
+        break;
+      }
+      else
+      {
+        limpiarPantalla();
+        printf("Opción inválida. Pruebe otra vez\n");
+      }  
+    } 
 }
 
-void limpiarLista(List *list)
-{
-  
+void limpiarLista(List *list) {
+  Node *current = list->head;
+  while (current != NULL)
+    {
+      Node *temp = current;
+      current = current->next;
+      free(temp->data->nombre);
+      free(temp->data->apellido);
+      free(temp->data->sintoma);
+      free(temp->data);
+      free(temp);
+    }
+  list->head = NULL;
+  list->tail = NULL;
+  list->size = 0;
 }
 
-int main(void) 
-{
+int main(void) {
   char opcion;
   List *pacientes = list_create();
   do
