@@ -26,3 +26,10 @@ El programa incluye las siguientes funciones principales:
 - `atenderPaciente()`: Función para atender al primer paciente con la prioridad mas alta.
 - `limpiarLista()`: Función para limpiar la lista de pacientes.
 - `mostrarPacientes()`: Función para mostrar pacientes por prioridad.
+
+## Implementar el codigo (shell)
+
+Para compilar y ejecutar el codigo, en el Shell se deben escribir los siguientes comandos en el siguiente orden:
+
+    gcc main.c -o hospital
+    ./hospital
