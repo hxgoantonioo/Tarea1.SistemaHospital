@@ -25,6 +25,4 @@ El programa incluye las siguientes funciones principales:
 - `mostrarLista()`: Función para mostrar la lista de pacientes.
 - `atenderPaciente()`: Función para atender al primer paciente con la prioridad mas alta.
 - `limpiarLista()`: Función para limpiar la lista de pacientes.
-
-Esta funcion aun no esta disponible, pero lo estara prontamente
 - `mostrarPacientes()`: Función para mostrar pacientes por prioridad.
